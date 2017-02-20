@@ -9,7 +9,6 @@ var jwt = require('jsonwebtoken');
 var config = require('./config/main');
 var index = require('./routes/index');
 var users = require('./routes/users');
-
 var mongoose =  require('mongoose');
 
 var app = express();
@@ -31,6 +30,7 @@ mongoose.connect(config.database) // if error it will throw async error
         console.error('App starting error:', err.stack);
         process.exit(1);
   });
+
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));

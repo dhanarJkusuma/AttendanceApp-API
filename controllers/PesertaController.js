@@ -6,24 +6,29 @@ var Peserta = require('../models/Peserta');
 
 exports.createCtrl = function(req, res, next){
     console.log("[Absen API] : Inserting new Participant.");
-    var peserta = new Peserta({
-        name : req.body.name,
-        alamat : req.body.alamat,
-        _kloter : req.body.kloter
-    });
-    peserta.save(function(err){
-        if(err){
-            res.json({
-                status : false,
-                message : "Something error, Cannot inserting new Participant."
-            });
-        }else{
-            res.json({
-                status : true,
-                message : "Data Participant has been inserted Successfully."
-            })
-        }
-    });
+    if(req.level !== 'mypro' || req.level !== 'reps'){
+        res.status(403);
+        res.send('Unauthorized');
+    }else {
+        var peserta = new Peserta({
+            name: req.body.name,
+            alamat: req.body.alamat,
+            _kloter: req.body.kloter
+        });
+        peserta.save(function (err) {
+            if (err) {
+                res.json({
+                    status: false,
+                    message: "Something error, Cannot inserting new Participant."
+                });
+            } else {
+                res.json({
+                    status: true,
+                    message: "Data Participant has been inserted Successfully."
+                })
+            }
+        });
+    }
 };
 
 exports.readCtrl = function(req, res, next){
@@ -48,69 +53,78 @@ exports.readCtrl = function(req, res, next){
 
 exports.updateCtrl = function(req, res, next){
     console.log("[Absen API] : Updating participant.");
-    var id = req.params.id;
-    var participant = Peserta.findOne({_id:id});
+    if(req.level !== 'mypro' || req.level !== 'reps'){
+        res.status(403);
+        res.send('Unauthorized');
+    }else {
+        var id = req.params.id;
+        var participant = Peserta.findOne({_id: id});
 
-    participant.exec()
-        .then(function(peserta){
-            if(peserta){
-                return peserta;
-            }else{
-                res.json({
-                    status : false,
-                    message : "Participant not found."
-                });
-                return null;
-            }
-        })
-        .then(function(peserta){
-            if(peserta){
-                peserta.name = req.body.name;
-                peserta.alamat = req.body.alamat;
-                peserta._kloter = req.body.kloter;
-                return peserta.save();
-            }else{
-                return null;
-            }
-        })
-        .then(function(peserta){
-            if(peserta){
-                res.json({
-                    status : true,
-                    data : peserta,
-                    message : "Participant has been successfully updated."
-                })
-            }else{
-                res.json({
-                    status : false,
-                    message : "Error while updating data participant."
-                })
-            }
-        })
-        .catch(function(err){
-            res.json({
-                status : false,
-                message : "Server Internal Error (500)."
+        participant.exec()
+            .then(function (peserta) {
+                if (peserta) {
+                    return peserta;
+                } else {
+                    res.json({
+                        status: false,
+                        message: "Participant not found."
+                    });
+                    return null;
+                }
             })
-        });
+            .then(function (peserta) {
+                if (peserta) {
+                    peserta.name = req.body.name;
+                    peserta.alamat = req.body.alamat;
+                    peserta._kloter = req.body.kloter;
+                    return peserta.save();
+                } else {
+                    return null;
+                }
+            })
+            .then(function (peserta) {
+                if (peserta) {
+                    res.json({
+                        status: true,
+                        data: peserta,
+                        message: "Participant has been successfully updated."
+                    })
+                } else {
+                    res.json({
+                        status: false,
+                        message: "Error while updating data participant."
+                    })
+                }
+            })
+            .catch(function (err) {
+                res.json({
+                    status: false,
+                    message: "Server Internal Error (500)."
+                })
+            });
+    }
 };
 
 exports.deleteCtrl = function(req, res, next){
     console.log("[Absen API] : Deleting participant.");
-    var id = req.body.id;
-    Peserta.findOneAndRemove({_id: id}, function(err){
-        if(err){
-            res.json({
-                status : false,
-                message : "Data that you are deleted is not exists."
-            });
-        }else {
-            res.json({
-                status : true,
-                message : "Participant has been successfully deleted."
-            })
-        }
-    });
-
+    if(req.level !== 'mypro' || req.level !== 'reps'){
+        res.status(403);
+        res.send('Unauthorized');
+    }else {
+        var id = req.body.id;
+        Peserta.findOneAndRemove({_id: id}, function (err) {
+            if (err) {
+                res.json({
+                    status: false,
+                    message: "Data that you are deleted is not exists."
+                });
+            } else {
+                res.json({
+                    status: true,
+                    message: "Participant has been successfully deleted."
+                })
+            }
+        });
+    }
 };
 
