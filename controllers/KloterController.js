@@ -2,7 +2,7 @@
  * Created by Dhanar J Kusuma on 19/02/2017.
  */
 
-var Kloter = require('../models/Location');
+var Kloter = require('../models/Kloter');
 
 exports.createCtrl = function(req, res, next){
     console.log("[Absen API] : Inserting new Kloter.");
