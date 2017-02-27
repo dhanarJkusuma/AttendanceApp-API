@@ -3,5 +3,5 @@
  */
 module.exports = {
     secret : "puHi1puHixyz",
-    database : "mongodb://localhost:27017/sarihusada"
+    database : "mongodb://188.166.235.46:27017/sarihusada"
 };
