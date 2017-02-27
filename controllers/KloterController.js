@@ -6,7 +6,7 @@ var Kloter = require('../models/Location');
 
 exports.createCtrl = function(req, res, next){
     console.log("[Absen API] : Inserting new Kloter.");
-    if(req.level !== 'mypro'){
+    if(req.user.level !== 'mypro'){
         res.status(403);
         res.send('Unauthorized');
     }else{
@@ -66,7 +66,7 @@ exports.readCtrl = function(req, res, next){
 
 exports.updateCtrl = function(req, res, next){
     console.log("[Absen API] : Updating kloter.");
-    if(req.level !== 'mypro'){
+    if(req.user.level !== 'mypro'){
         res.status(403);
         res.send('Unauthorized');
     }else{
@@ -108,7 +108,7 @@ exports.updateCtrl = function(req, res, next){
 
 exports.deleteCtrl = function(req, res, next){
     console.log("[Absen API] : Deleting kloter.");
-    if(req.level !== 'mypro'){
+    if(req.user.level !== 'mypro'){
         res.status(403);
         res.send('Unauthorized');
     }else {
