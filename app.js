@@ -10,6 +10,7 @@ var config = require('./config/main');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var mongoose =  require('mongoose');
+var cors = require('cors');
 
 var app = express();
 
@@ -35,6 +36,7 @@ mongoose.connect(config.database) // if error it will throw async error
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
