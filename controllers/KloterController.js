@@ -6,6 +6,7 @@ var Kloter = require('../models/Kloter');
 
 exports.createCtrl = function(req, res, next){
     console.log("[Absen API] : Inserting new Kloter.");
+    console.log(req.body.name);
     if(req.user.level !== 'mypro'){
         res.status(403);
         res.send('Unauthorized');
