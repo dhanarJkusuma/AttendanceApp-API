@@ -89,4 +89,26 @@ exports.login = function(req, res, next){
                 message : "Server Internal Error (500)."
             })
         });
+};
+
+exports.verified = function(req, res, next){
+
+    var promise = User.findOne({ _id: req.user._id});
+    promise.exec()
+        .then(function(user){
+            var token = jwt.sign(user, config.secret, {
+                expiresIn : 10800 //in second
+            });
+            res.json({
+                status : true,
+                message : "Login successfully.",
+                token : 'JWT ' + token
+            })
+        })
+        .catch(function(err){
+            res.json({
+                status :false,
+                message : "Server Internal Error (500)."
+            })
+        });
 }
