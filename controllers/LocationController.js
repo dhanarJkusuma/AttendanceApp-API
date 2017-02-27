@@ -5,6 +5,7 @@ var Location = require('../models/Location');
 
 exports.createCtrl = function(req, res, next){
     console.log("[Absen API] : Inserting new location.");
+    console.log(req);
     if(req.level !== 'mypro'){
         res.status(403);
         res.send('Unauthorized');
