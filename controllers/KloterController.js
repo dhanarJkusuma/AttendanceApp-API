@@ -73,7 +73,7 @@ exports.updateCtrl = function(req, res, next){
     }else{
         var id = req.params.id;
         var kloter = Kloter.findOne({_id:id});
-        location.exec()
+        kloter.exec()
             .then(function(kloter){
                 if(kloter){
                     return kloter;
