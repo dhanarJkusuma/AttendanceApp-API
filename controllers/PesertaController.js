@@ -9,7 +9,7 @@ exports.createCtrl = function(req, res, next){
     if(req.user.level === 'mypro' || req.user.level === 'reps'){
         console.log("passed");
         var peserta = new Peserta({
-            name: req.body.name,
+            nama: req.body.name,
             alamat: req.body.alamat,
             _kloter: req.body.kloter
         });
@@ -76,7 +76,7 @@ exports.updateCtrl = function(req, res, next){
             })
             .then(function (peserta) {
                 if (peserta) {
-                    peserta.name = req.body.name;
+                    peserta.nama = req.body.name;
                     peserta.alamat = req.body.alamat;
                     peserta._kloter = req.body.kloter;
                     return peserta.save();
