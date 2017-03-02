@@ -109,10 +109,7 @@ exports.updateCtrl = function(req, res, next){
 
 exports.deleteCtrl = function(req, res, next){
     console.log("[Absen API] : Deleting participant.");
-    if(req.user.level !== 'mypro' || req.user.level !== 'reps'){
-        res.status(403);
-        res.send('Unauthorized');
-    }else {
+    if(req.user.level === 'mypro'){
         var id = req.body.id;
         Peserta.findOneAndRemove({_id: id}, function (err) {
             if (err) {
@@ -127,6 +124,9 @@ exports.deleteCtrl = function(req, res, next){
                 })
             }
         });
+    }else {
+        res.status(403);
+        res.send('Unauthorized');
     }
 };
 
