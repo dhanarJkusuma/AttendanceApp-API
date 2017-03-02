@@ -64,7 +64,7 @@ exports.readCtrl = function(req, res, next){
 
 exports.updateCtrl = function(req, res, next){
     console.log("[Absen API] : Updating location.");
-    if(req.level !== 'mypro'){
+    if(req.user.level !== 'mypro'){
         res.status(403);
         res.send('Unauthorized');
     }else {
@@ -105,19 +105,23 @@ exports.updateCtrl = function(req, res, next){
 
 exports.deleteCtrl = function(req, res, next){
     console.log("[Absen API] : Deleting location.");
-    var id = req.body.id;
-    Location.findOneAndRemove({_id: id}, function(err){
-        if(err){
-            res.json({
-                status : false,
-                message : "Data that you are deleted is not exists."
-            });
-        }else {
-            res.json({
-                status : true,
-                message : "Location has been successfully deleted."
-            })
-        }
-    });
-
+    if(req.user.level !== 'mypro'){
+        res.status(403);
+        res.send('Unauthorized');
+    }else {
+        var id = req.body.id;
+        Location.findOneAndRemove({_id: id}, function (err) {
+            if (err) {
+                res.json({
+                    status: false,
+                    message: "Data that you are deleted is not exists."
+                });
+            } else {
+                res.json({
+                    status: true,
+                    message: "Location has been successfully deleted."
+                })
+            }
+        });
+    }
 };
