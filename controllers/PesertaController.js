@@ -6,7 +6,7 @@ var Peserta = require('../models/Peserta');
 
 exports.createCtrl = function(req, res, next){
     console.log("[Absen API] : Inserting new Participant.");
-    if(req.level !== 'mypro' || req.level !== 'reps'){
+    if(req.user.level !== 'mypro' || req.user.level !== 'reps'){
         res.status(403);
         res.send('Unauthorized');
     }else {
@@ -53,7 +53,7 @@ exports.readCtrl = function(req, res, next){
 
 exports.updateCtrl = function(req, res, next){
     console.log("[Absen API] : Updating participant.");
-    if(req.level !== 'mypro' || req.level !== 'reps'){
+    if(req.user.level !== 'mypro' || req.user.level !== 'reps'){
         res.status(403);
         res.send('Unauthorized');
     }else {
@@ -107,7 +107,7 @@ exports.updateCtrl = function(req, res, next){
 
 exports.deleteCtrl = function(req, res, next){
     console.log("[Absen API] : Deleting participant.");
-    if(req.level !== 'mypro' || req.level !== 'reps'){
+    if(req.user.level !== 'mypro' || req.user.level !== 'reps'){
         res.status(403);
         res.send('Unauthorized');
     }else {
