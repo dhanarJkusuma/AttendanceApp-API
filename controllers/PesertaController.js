@@ -110,7 +110,7 @@ exports.updateCtrl = function(req, res, next){
 exports.deleteCtrl = function(req, res, next){
     console.log("[Absen API] : Deleting participant.");
     if(req.user.level === 'mypro'){
-        var id = req.body.id;
+        var id = req.params.id;
         Peserta.findOneAndRemove({_id: id}, function (err) {
             if (err) {
                 res.json({
