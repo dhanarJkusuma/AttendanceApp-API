@@ -15,6 +15,7 @@ exports.createCtrl = function(req, res, next){
         });
         peserta.save(function (err) {
             if (err) {
+                console.log(err);
                 res.json({
                     status: false,
                     message: "Something error, Cannot inserting new Participant."
