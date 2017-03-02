@@ -6,13 +6,7 @@ var Peserta = require('../models/Peserta');
 
 exports.createCtrl = function(req, res, next){
     console.log("[Absen API] : Inserting new Participant.");
-    if(req.user.level !== 'mypro'){
-        res.status(403);
-        res.send('Unauthorized');
-    }else if(req.user.level !== 'reps'){
-        res.status(403);
-        res.send('Unauthorized');
-    }else{
+    if(req.user.level === 'mypro' || req.user.level === 'reps'){
         console.log("passed");
         var peserta = new Peserta({
             name: req.body.name,
@@ -32,6 +26,9 @@ exports.createCtrl = function(req, res, next){
                 })
             }
         });
+    }else{
+        res.status(403);
+        res.send('Unauthorized');
     }
 };
 
