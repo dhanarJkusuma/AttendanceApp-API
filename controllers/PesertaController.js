@@ -44,7 +44,7 @@ exports.readCtrl = function(req, res, next){
                 if(err){return err;}
                 res.json({
                     data : participants,
-                    totalPage : Math.round(count/limit),
+                    totalPage : (Math.ceil(count/limit)==0) ? 1 : Math.ceil(count/limit) ,
                     page : page
                 });
             });
