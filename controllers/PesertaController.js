@@ -11,6 +11,7 @@ exports.createCtrl = function(req, res, next){
         res.status(403);
         res.send('Unauthorized');
     }else {
+        console.log("passed");
         var peserta = new Peserta({
             name: req.body.name,
             alamat: req.body.alamat,
