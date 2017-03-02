@@ -113,7 +113,7 @@ exports.deleteCtrl = function(req, res, next){
         res.status(403);
         res.send('Unauthorized');
     }else {
-        var id = req.body.id;
+        var id = req.params.id;
         Kloter.findOneAndRemove({_id: id}, function (err) {
             if (err) {
                 res.json({
