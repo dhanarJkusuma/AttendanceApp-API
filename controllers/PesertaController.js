@@ -6,6 +6,7 @@ var Peserta = require('../models/Peserta');
 
 exports.createCtrl = function(req, res, next){
     console.log("[Absen API] : Inserting new Participant.");
+    console.log(req.user);
     if(req.user.level !== 'mypro' || req.user.level !== 'reps'){
         res.status(403);
         res.send('Unauthorized');
