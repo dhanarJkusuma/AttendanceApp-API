@@ -3,5 +3,6 @@
  */
 module.exports = {
     secret : "puHi1puHixyz",
-    database : "mongodb://188.166.235.46:27017/sarihusada"
+    databaseBackup : "mongodb://188.166.235.46:27017/sarihusada",
+    database : "mongodb://root:root@ds113670.mlab.com:13670/absen-sh"
 };
