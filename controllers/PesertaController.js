@@ -55,10 +55,7 @@ exports.readCtrl = function(req, res, next){
 
 exports.updateCtrl = function(req, res, next){
     console.log("[Absen API] : Updating participant.");
-    if(req.user.level !== 'mypro' || req.user.level !== 'reps'){
-        res.status(403);
-        res.send('Unauthorized');
-    }else {
+    if(req.user.level === 'mypro' || req.user.level === 'reps'){
         var id = req.params.id;
         var participant = Peserta.findOne({_id: id});
 
@@ -104,12 +101,15 @@ exports.updateCtrl = function(req, res, next){
                     message: "Server Internal Error (500)."
                 })
             });
+    }else {
+        res.status(403);
+        res.send('Unauthorized');
     }
 };
 
 exports.deleteCtrl = function(req, res, next){
     console.log("[Absen API] : Deleting participant.");
-    if(req.user.level === 'mypro'){
+    if(req.user.level !== 'mypro' || req.user.level !== 'reps'){
         var id = req.params.id;
         Peserta.findOneAndRemove({_id: id}, function (err) {
             if (err) {

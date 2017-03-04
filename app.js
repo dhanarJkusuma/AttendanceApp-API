@@ -47,6 +47,7 @@ var location = require('./routes/location')(passport);
 var kloter = require('./routes/kloter')(passport);
 var peserta = require('./routes/peserta')(passport);
 var verified = require('./routes/verified')(passport);
+var muser = require('./routes/muser')(passport);
 
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -57,6 +58,7 @@ app.use('/location', location);
 app.use('/kloter', kloter);
 app.use('/peserta', peserta);
 app.use('/verified', verified);
+app.use('/muser', muser);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
