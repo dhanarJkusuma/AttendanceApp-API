@@ -25,4 +25,4 @@ var pesertaSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('Peserta', pesertaSchema);
+module.exports = mongoose.model('Peserta', pesertaSchema,'peserta');
