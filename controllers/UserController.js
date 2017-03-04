@@ -56,7 +56,7 @@ exports.readCtrl = function(req, res, next){
         res.status(403);
         res.send('Unauthorized');
     }else {
-        User.find().exec()
+        User.find({"level": {"$ne": "mypro"}}).exec()
             .then(function(results){
                 res.json({
                     status : true,
