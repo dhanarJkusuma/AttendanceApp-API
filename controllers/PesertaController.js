@@ -11,7 +11,8 @@ exports.createCtrl = function(req, res, next){
         var peserta = new Peserta({
             nama: req.body.name,
             alamat: req.body.alamat,
-            _kloter: req.body.kloter
+            _kloter: req.body.kloter,
+            _location : req.body.location
         });
         peserta.save(function (err) {
             if (err) {
@@ -76,6 +77,7 @@ exports.updateCtrl = function(req, res, next){
                     peserta.nama = req.body.name;
                     peserta.alamat = req.body.alamat;
                     peserta._kloter = req.body.kloter;
+                    peserta._location = req.body.location;
                     return peserta.save();
                 } else {
                     return null;

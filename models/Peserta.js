@@ -17,6 +17,11 @@ var pesertaSchema = new Schema({
         type : Schema.Types.ObjectId,
         ref : 'Kloter',
         required : true
+    },
+    _location : {
+        type : Schema.Types.ObjectId,
+        ref : 'Location',
+        required : true
     }
 });
 
