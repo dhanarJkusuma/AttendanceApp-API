@@ -39,7 +39,7 @@ exports.readCtrl = function(req, res, next){
     var page = (req.query.page) ? req.query.page : 1 ;
     var limit = (req.query.limit) ? req.query.limit : 10;
     Peserta.find()
-        .populate('location')
+        .populate('_location')
         .sort('name')
         .limit(limit)
         .skip((page-1)*limit)
