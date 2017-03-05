@@ -75,7 +75,7 @@ exports.updateCtrl = function(req, res, next){
     }else {
         var username = req.body.username;
         var level = req.body.level;
-        var _reps = (req.body.reps != null && req.body.reps != '') ? req.body.reps : null;
+        var _reps = (req.body.reps != null && req.body.reps != ''  && req.body.level == 'reps') ? req.body.reps : null;
         var findUser = User.findOne({_id : req.params.id});
         findUser.exec()
             .then(function(user){
