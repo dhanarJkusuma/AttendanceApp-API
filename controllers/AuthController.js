@@ -52,7 +52,7 @@ exports.register = function(req, res, next){
 exports.login = function(req, res, next){
     var username = req.body.username;
     var password = req.body.password;
-    var promise = User.findOne({ username: username});
+    var promise = User.findOne({ username: username}).populate('reps');
     promise.exec()
         .then(function(user){
            if(user){
@@ -67,7 +67,12 @@ exports.login = function(req, res, next){
                        res.json({
                            status : true,
                            message : "Login successfully.",
-                           token : 'JWT ' + token
+                           token : 'JWT ' + token,
+                           user : {
+                               username : user.username,
+                               level : user.level,
+                               reps : user.reps
+                           }
                        })
                    }else{
                        res.json({
@@ -93,7 +98,7 @@ exports.login = function(req, res, next){
 
 exports.verified = function(req, res, next){
 
-    var promise = User.findOne({ _id: req.user._id});
+    var promise = User.findOne({ _id: req.user._id}).populate('reps');
     promise.exec()
         .then(function(user){
             var token = jwt.sign(user, config.secret, {
@@ -102,7 +107,12 @@ exports.verified = function(req, res, next){
             res.json({
                 status : true,
                 message : "Login successfully.",
-                token : 'JWT ' + token
+                token : 'JWT ' + token,
+                user : {
+                    username : user.username,
+                    level : user.level,
+                    reps : user.reps
+                }
             })
         })
         .catch(function(err){
