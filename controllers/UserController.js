@@ -22,7 +22,7 @@ exports.createCtrl = function(req, res, next){
                     username : req.body.username,
                     password : req.body.password,
                     level : req.body.level,
-                    reps : (req.body.reps != null) ? req.body.reps : null
+                    reps : (req.body.reps != null && req.body.reps != '') ? req.body.reps : null
                 });
                 return user.save();
             }
