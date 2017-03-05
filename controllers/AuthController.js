@@ -44,6 +44,7 @@ exports.register = function(req, res, next){
         .catch(function(err){
             res.json({
                 status : false,
+                err : err,
                 message : "Server Internal Error. (500)"
             });
         });
@@ -84,6 +85,7 @@ exports.login = function(req, res, next){
            }else{
                res.json({
                    status : false,
+                   err : err,
                    message : "User not found."
                })
            }
@@ -118,6 +120,7 @@ exports.verified = function(req, res, next){
         .catch(function(err){
             res.json({
                 status :false,
+                err : err,
                 message : "Server Internal Error (500)."
             })
         });
