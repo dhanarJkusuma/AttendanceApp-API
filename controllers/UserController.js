@@ -122,6 +122,56 @@ exports.updateCtrl = function(req, res, next){
     }
 };
 
+exports.changePassCtrl = function(req, res, next){
+    console.log("[Absen API] : Change Password user SH or mypro.");
+    if(req.user.level !== 'mypro'){
+        res.status(403);
+        res.send('Unauthorized');
+    }else {
+        var password = req.body.password;
+        var findUser = User.findOne({_id : req.params.id});
+        findUser.exec()
+            .then(function(user){
+                if(user){
+                    return user;
+                }else{
+                    res.json({
+                        status : false,
+                        message : "User tidak ditemukan."
+                    });
+                    return null;
+                }
+            })
+            .then(function(result){
+                if(result){
+                    result.password = password;
+                    return result.save();
+                }else{
+                    return null;
+                }
+            })
+            .then(function(result){
+                if(result){
+                    res.json({
+                        status : true,
+                        message : "Berhasil mengubah password."
+                    });
+                }else{
+                    res.json({
+                        status : false,
+                        message : "Gagal saat mengubah password."
+                    });
+                }
+            })
+            .catch(function(err){
+                res.json({
+                    status : false,
+                    message: "Server Internal Error (500)."
+                })
+            })
+    }
+};
+
 exports.deleteCtrl = function(req, res, next){
     console.log("[Absen API] : Deleting data user SH or mypro.");
     if(req.user.level === 'mypro'){

@@ -11,7 +11,7 @@ module.exports = function(passport){
     router.post('/', passport.authenticate('jwt',{session:false}), mUserCtrl.createCtrl);
     router.post('/update/:id', passport.authenticate('jwt',{session:false}), mUserCtrl.updateCtrl);
     router.post('/delete/:id', passport.authenticate('jwt',{session:false}), mUserCtrl.deleteCtrl);
-
+    router.post('/password/:id', passport.authenticate('jwt', {session:false}), mUserCtrl.changePassCtrl);
     return router;
 };
 
