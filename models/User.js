@@ -24,11 +24,11 @@ var userSchema = new Schema({
        enum : ['reps', 'sh', 'mypro'],
        required : true
    },
-   'reps' : [{
+   'reps' : {
        type : Schema.Types.ObjectId,
        ref: 'Location',
        required : false
-   }]
+   }
 });
 
 
