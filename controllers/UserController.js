@@ -166,6 +166,7 @@ exports.changePassCtrl = function(req, res, next){
             .catch(function(err){
                 res.json({
                     status : false,
+                    err : err,
                     message: "Server Internal Error (500)."
                 })
             })
