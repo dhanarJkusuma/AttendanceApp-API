@@ -21,9 +21,7 @@ exports.register = function(req, res, next){
                     username : req.body.username,
                     password : req.body.password,
                     level : req.body.level,
-                    reps : [
-
-                    ]
+                    reps : null
                 });
                 return user.save();
             }
