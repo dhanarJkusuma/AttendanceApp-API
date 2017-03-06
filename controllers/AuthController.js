@@ -70,6 +70,7 @@ exports.login = function(req, res, next){
                            message : "Login successfully.",
                            token : 'JWT ' + token,
                            user : {
+                               _id : user._id,
                                username : user.username,
                                level : user.level,
                                reps : user.reps
@@ -99,7 +100,6 @@ exports.login = function(req, res, next){
 };
 
 exports.verified = function(req, res, next){
-
     var promise = User.findOne({ _id: req.user._id}).populate('reps');
     promise.exec()
         .then(function(user){
@@ -111,6 +111,7 @@ exports.verified = function(req, res, next){
                 message : "Login successfully.",
                 token : 'JWT ' + token,
                 user : {
+                    _id : user._id,
                     username : user.username,
                     level : user.level,
                     reps : user.reps
