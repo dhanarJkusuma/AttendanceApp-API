@@ -130,8 +130,10 @@ exports.authenticate = function(passport){
                 passport.authenticate('jwt', function(err, user, info) {
                     if (err) { return next(err); }
                     if (!user) {
+			res.status(401);
                         return res.json({
                             status: false,
+			code : 401,
                             message : "Unauthorized User."
                         });
                     }
