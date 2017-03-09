@@ -126,8 +126,7 @@ exports.verified = function(req, res, next){
 };
 
 exports.authenticate = function(passport){
-    return function(req, res, next) {
-                passport.authenticate('jwt', function(err, user, info) {
+    return passport.authenticate('jwt', function(err, user, info) {
                     if (!user) {
 			            res.status(401);
                         return res.json({
@@ -136,7 +135,6 @@ exports.authenticate = function(passport){
                             message : "Unauthorized User."
                         });
                     }
-                    next();
-                })(req, res, next);
+                });
     }
 };
