@@ -133,7 +133,7 @@ exports.updateCtrl = function(req, res, next){
                             if (peserta) {
                                 res.json({
                                     status: true,
-                                    data: peserta,
+                                    data: current_peserta,
                                     message: "Berhasil mengubah data peserta."
                                 })
                             } else {
