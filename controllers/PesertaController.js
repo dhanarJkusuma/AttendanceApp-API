@@ -84,8 +84,9 @@ exports.updateCtrl = function(req, res, next){
                         _kloter : peserta._kloter,
                         _location : peserta._location
                     });
-                    revisi.save(function(err){
+                    revisi.save(function(err, revisi){
                         if(!err){
+                            console.log(revisi);
                             peserta._revisi.push(revisi._id);
                             peserta.nama = req.body.name;
                             peserta.alamat = req.body.alamat;
