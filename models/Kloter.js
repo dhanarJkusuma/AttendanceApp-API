@@ -3,6 +3,7 @@
  */
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var Peserta = require('./Peserta');
 
 var kloterSchema = new Schema({
     name : {
@@ -10,6 +11,11 @@ var kloterSchema = new Schema({
         required : true,
         unique : true
     }
+});
+
+kloterSchema.pre('remove', function(next){
+    Peserta.remove({_kloter : this._id});
+    next();
 });
 
 module.exports = mongoose.model('Kloter', kloterSchema);
