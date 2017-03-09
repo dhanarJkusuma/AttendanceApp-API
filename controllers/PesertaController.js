@@ -84,25 +84,27 @@ exports.updateCtrl = function(req, res, next){
                         _kloter : peserta._kloter,
                         _location : peserta._location
                     });
-                    revisi.save(function(err, revisi){
-                        if(!err){
-                            peserta.nama = req.body.name;
-                            peserta.alamat = req.body.alamat;
-                            peserta._kloter = req.body.kloter;
-                            peserta._location = req.body.location;
-                            peserta._revisi.push(revisi._id);
-                            return peserta.save();
-                        }else{
-                            console.log(err);
-                            return null;
-                        }
-
-                    });
+                    return {
+                        revisi : revisi.save(),
+                        peserta : peserta
+                    }
                 } else {
                     return null;
                 }
             })
-            .then(function (peserta) {
+            .then(function (result) {
+                if(result.revisi){
+                    peserta.nama = req.body.name;
+                    peserta.alamat = req.body.alamat;
+                    peserta._kloter = req.body.kloter;
+                    peserta._location = req.body.location;
+                    peserta._revisi.push(result.revisi._id);
+                    return peserta.save();
+                }else{
+                    return null;
+                }
+            })
+            .then(function(peserta){
                 if (peserta) {
                     res.json({
                         status: true,
