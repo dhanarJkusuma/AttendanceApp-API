@@ -48,13 +48,20 @@ exports.readCtrl = function(req, res, next){
         .limit(limit)
         .skip((page-1)*limit)
         .exec(function(err, participants){
+            if(err){return err;}
             Peserta.count().exec(function(err, count){
-                if(err){return err;}
-                res.json({
-                    data : participants,
-                    totalPage : (Math.ceil(count/limit)==0) ? 1 : Math.ceil(count/limit) ,
-                    page : page
+                Peserta.populate(participants, { path: '_revisi._kloter' }, function(err, participantsKl){
+                    if(err){return err;}
+                    Peserta.populate(participantsKl, { path: '_revisi._location' }, function(err, participantsLoc){
+                       if(err){return err;}
+                       res.json({
+                           data : participantsLoc,
+                           totalPage : (Math.ceil(count/limit)==0) ? 1 : Math.ceil(count/limit) ,
+                           page : page
+                       });
+                   });
                 });
+
             });
         });
 };
