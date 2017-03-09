@@ -63,7 +63,7 @@ exports.updateCtrl = function(req, res, next){
     if(req.user.level === 'mypro' || req.user.level === 'reps'){
         var id = req.params.id;
         var participant = Peserta.findOne({_id: id});
-
+        var current_peserta = null;
         participant.exec()
             .then(function (peserta) {
                 if (peserta) {
@@ -78,29 +78,26 @@ exports.updateCtrl = function(req, res, next){
             })
             .then(function (peserta) {
                 if (peserta) {
+                    current_peserta = peserta;
                     var revisi = new PesertaRevisi({
                         nama : peserta.nama,
                         alamat : peserta.alamat,
                         _kloter : peserta._kloter,
                         _location : peserta._location
                     });
-                    return {
-                        revisi : revisi.save(),
-                        peserta : peserta
-                    }
+                    return revisi.save();
                 } else {
                     return null;
                 }
             })
-            .then(function (result) {
-                console.log(result);
-                if(result.revisi){
-                    peserta.nama = req.body.name;
-                    peserta.alamat = req.body.alamat;
-                    peserta._kloter = req.body.kloter;
-                    peserta._location = req.body.location;
-                    peserta._revisi.push(result.revisi._id);
-                    return peserta.save();
+            .then(function (revisi) {
+                if(revisi){
+                    current_peserta.nama = req.body.name;
+                    current_peserta.alamat = req.body.alamat;
+                    current_peserta._kloter = req.body.kloter;
+                    current_peserta._location = req.body.location;
+                    current_peserta._revisi.push(result.revisi._id);
+                    return current_peserta.save();
                 }else{
                     return null;
                 }
