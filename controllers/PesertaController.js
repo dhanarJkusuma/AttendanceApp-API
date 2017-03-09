@@ -42,8 +42,6 @@ exports.readCtrl = function(req, res, next){
         .populate('_location')
         .populate('_kloter')
         .populate('_revisi')
-        .populate('_revisi._kloter')
-        .populate('_revisi._location')
         .sort('name')
         .limit(limit)
         .skip((page-1)*limit)
