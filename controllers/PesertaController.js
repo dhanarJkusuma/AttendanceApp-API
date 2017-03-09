@@ -106,6 +106,7 @@ exports.updateCtrl = function(req, res, next){
                 } else {
                     res.json({
                         status: false,
+                        data : peserta,
                         message: "Error while updating data participant."
                     })
                 }
