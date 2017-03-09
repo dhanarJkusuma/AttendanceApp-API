@@ -47,8 +47,8 @@ exports.readCtrl = function(req, res, next){
         .skip((page-1)*limit)
         .exec(function(err, participants){
             Peserta.count().exec(function(err, count){
-                PesertaRevisi.populate(participants, {path: 'peserta._kloter', model:'Kloter'}, function(err, docs2){
-                    PesertaRevisi.populate(participants, {path: 'peserta._location', model: 'Location'}, function (err, doc3) {
+                PesertaRevisi.populate(participants, {path: '_revisi._kloter', model:'Kloter'}, function(err, docs2){
+                    PesertaRevisi.populate(participants, {path: '_revisi._location', model: 'Location'}, function (err, doc3) {
                         if(err){return err;}
                         res.json({
                             data : doc3,
