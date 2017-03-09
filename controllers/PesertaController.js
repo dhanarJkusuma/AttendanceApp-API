@@ -68,7 +68,11 @@ exports.updateCtrl = function(req, res, next){
     console.log("[Absen API] : Updating participant.");
     if(req.user.level === 'mypro' || req.user.level === 'reps'){
         var id = req.params.id;
-        var participant = Peserta.findOne({_id: id});
+        var participant = Peserta
+            .findOne({_id: id})
+            .populate('_location')
+            .populate('_kloter')
+            .populate('_revisi');
         var current_peserta = null;
         participant.exec()
             .then(function (peserta) {
@@ -112,19 +116,34 @@ exports.updateCtrl = function(req, res, next){
                 }
             })
             .then(function(peserta){
-                if (peserta) {
-                    res.json({
-                        status: true,
-                        data: peserta,
-                        message: "Berhasil mengubah data peserta."
-                    })
-                } else {
-                    res.json({
-                        status: false,
-                        data : peserta,
-                        message: "Gagal mengubah data peserta."
-                    })
-                }
+                Peserta.populate(peserta, {
+                    path: '_revisi._kloter',
+                    model : 'Kloter' },
+                    function(err, participantsKl) {
+                        if (err) {
+                            return err;
+                        }
+                    Peserta.populate(participantsKl, {
+                        path: '_revisi._location',
+                        model: 'Location'
+                    }, function (err, participantsLoc) {
+                            if (err) {
+                                return err;
+                            }
+                            if (peserta) {
+                                res.json({
+                                    status: true,
+                                    data: peserta,
+                                    message: "Berhasil mengubah data peserta."
+                                })
+                            } else {
+                                res.json({
+                                    status: false,
+                                    message: "Gagal mengubah data peserta."
+                                })
+                            }
+                    });
+                });
             })
             .catch(function (err) {
                 res.json({
