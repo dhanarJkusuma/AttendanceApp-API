@@ -64,6 +64,36 @@ exports.readCtrl = function(req, res, next){
         });
 };
 
+exports.readByKloterCtrl = function(req, res, next){
+    console.log("[Absen API] : Getting data participant.");
+    var page = (req.query.page) ? req.query.page : 1 ;
+    var limit = (req.query.limit) ? req.query.limit : 10;
+    Peserta.find({ _kloter : req.body.kloter })
+        .populate('_location')
+        .populate('_kloter')
+        .populate('_revisi')
+        .sort('name')
+        .limit(limit)
+        .skip((page-1)*limit)
+        .exec(function(err, participants){
+            if(err){return err;}
+            Peserta.count().exec(function(err, count){
+                Peserta.populate(participants, { path: '_revisi._kloter', model : 'Kloter' }, function(err, participantsKl){
+                    if(err){return err;}
+                    Peserta.populate(participantsKl, { path: '_revisi._location', model : 'Location' }, function(err, participantsLoc){
+                        if(err){return err;}
+                        res.json({
+                            data : participantsLoc,
+                            totalPage : (Math.ceil(count/limit)==0) ? 1 : Math.ceil(count/limit) ,
+                            page : page
+                        });
+                    });
+                });
+
+            });
+        });
+};
+
 exports.updateCtrl = function(req, res, next){
     console.log("[Absen API] : Updating participant.");
     if(req.user.level === 'mypro' || req.user.level === 'reps'){
