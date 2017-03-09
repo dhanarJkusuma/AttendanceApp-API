@@ -17,15 +17,14 @@ exports.createCtrl = function(req, res, next){
         });
         peserta.save(function (err) {
             if (err) {
-                console.log(err);
                 res.json({
                     status: false,
-                    message: "Something error, Cannot inserting new Participant."
+                    message: "Gagal menambahkan peserta baru."
                 });
             } else {
                 res.json({
                     status: true,
-                    message: "Data Participant has been inserted Successfully."
+                    message: "Berhasil menambahkan peserta baru."
                 })
             }
         });
@@ -71,13 +70,13 @@ exports.updateCtrl = function(req, res, next){
                 } else {
                     res.json({
                         status: false,
-                        message: "Participant not found."
+                        message: "Peserta tidak ditemukan."
                     });
                     return null;
                 }
             })
             .then(function (peserta) {
-                if (peserta) {
+                if (peserta && peserta._revisi.length <3) {
                     current_peserta = peserta;
                     var revisi = new PesertaRevisi({
                         nama : peserta.nama,
@@ -99,7 +98,11 @@ exports.updateCtrl = function(req, res, next){
                     current_peserta._revisi.push(revisi._id);
                     return current_peserta.save();
                 }else{
-                    return null;
+                    res.json({
+                        status: false,
+                        data : peserta,
+                        message: "Tidak dapat melakukan update, revisi telah melebihi batas maksimal."
+                    })
                 }
             })
             .then(function(peserta){
@@ -107,13 +110,13 @@ exports.updateCtrl = function(req, res, next){
                     res.json({
                         status: true,
                         data: peserta,
-                        message: "Participant has been successfully updated."
+                        message: "Berhasil mengubah data peserta."
                     })
                 } else {
                     res.json({
                         status: false,
                         data : peserta,
-                        message: "Error while updating data participant."
+                        message: "Gagal mengubah data peserta."
                     })
                 }
             })
