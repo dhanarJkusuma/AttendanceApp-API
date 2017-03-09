@@ -116,7 +116,7 @@ exports.updateCtrl = function(req, res, next){
                 }
             })
             .then(function(peserta){
-                Peserta.populate(peserta, {
+                Peserta.populate(current_peserta, {
                     path: '_revisi._kloter',
                     model : 'Kloter' },
                     function(err, participantsKl) {
@@ -133,7 +133,7 @@ exports.updateCtrl = function(req, res, next){
                             if (peserta) {
                                 res.json({
                                     status: true,
-                                    data: current_peserta,
+                                    data: participantsLoc,
                                     message: "Berhasil mengubah data peserta."
                                 })
                             } else {
