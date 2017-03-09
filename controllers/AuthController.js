@@ -128,12 +128,11 @@ exports.verified = function(req, res, next){
 exports.authenticate = function(passport){
     return function(req, res, next) {
                 passport.authenticate('jwt', function(err, user, info) {
-                    if (err) { return next(err); }
                     if (!user) {
-			res.status(401);
+			            res.status(401);
                         return res.json({
                             status: false,
-			code : 401,
+			                code : 401,
                             message : "Unauthorized User."
                         });
                     }
