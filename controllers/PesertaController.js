@@ -96,7 +96,7 @@ exports.updateCtrl = function(req, res, next){
                     current_peserta.alamat = req.body.alamat;
                     current_peserta._kloter = req.body.kloter;
                     current_peserta._location = req.body.location;
-                    current_peserta._revisi.push(result.revisi._id);
+                    current_peserta._revisi.push(revisi._id);
                     return current_peserta.save();
                 }else{
                     return null;
