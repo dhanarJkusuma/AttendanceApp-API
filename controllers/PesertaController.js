@@ -42,22 +42,19 @@ exports.readCtrl = function(req, res, next){
         .populate('_location')
         .populate('_kloter')
         .populate('_revisi')
+        .populate('_revisi._kloter')
+        .populate('_revisi._location')
         .sort('name')
         .limit(limit)
         .skip((page-1)*limit)
         .exec(function(err, participants){
             Peserta.count().exec(function(err, count){
-                PesertaRevisi.populate(participants, {path: '_revisi._kloter', model:'Kloter'}, function(err, docs2){
-                    PesertaRevisi.populate(participants, {path: '_revisi._location', model: 'Location'}, function (err, doc3) {
-                        if(err){return err;}
-                        res.json({
-                            data : doc3,
-                            totalPage : (Math.ceil(count/limit)==0) ? 1 : Math.ceil(count/limit) ,
-                            page : page
-                        });
-                    });
+                if(err){return err;}
+                res.json({
+                    data : doc3,
+                    totalPage : (Math.ceil(count/limit)==0) ? 1 : Math.ceil(count/limit) ,
+                    page : page
                 });
-
             });
         });
 };
