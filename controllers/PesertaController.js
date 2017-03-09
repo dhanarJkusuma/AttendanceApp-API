@@ -13,7 +13,7 @@ exports.createCtrl = function(req, res, next){
             alamat: req.body.alamat,
             _kloter: req.body.kloter,
             _location : req.body.location,
-            _revisi : null
+            _revisi : []
         });
         peserta.save(function (err) {
             if (err) {
@@ -86,12 +86,11 @@ exports.updateCtrl = function(req, res, next){
                     });
                     revisi.save(function(err, revisi){
                         if(!err){
-                            console.log(revisi);
-                            //peserta._revisi.push(revisi._id);
                             peserta.nama = req.body.name;
                             peserta.alamat = req.body.alamat;
                             peserta._kloter = req.body.kloter;
                             peserta._location = req.body.location;
+                            peserta._revisi.push(revisi._id);
                             return peserta.save();
                         }else{
                             console.log(err);
