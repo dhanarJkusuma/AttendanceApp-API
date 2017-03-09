@@ -8,6 +8,7 @@ var pesertaCtrl = require('../controllers/PesertaController');
 module.exports = function(passport){
     router.get('/', passport.authenticate('jwt',{session:false}), pesertaCtrl.readCtrl);
     router.post('/', passport.authenticate('jwt',{session:false}), pesertaCtrl.createCtrl);
+    router.post('/bykloter', passport.authenticate('jwt', {session:false}), pesertaCtrl.readByKloterCtrl);
     router.post('/update/:id', passport.authenticate('jwt',{session:false}), pesertaCtrl.updateCtrl);
     router.post('/delete/:id', passport.authenticate('jwt',{session:false}), pesertaCtrl.deleteCtrl);
     return router;
