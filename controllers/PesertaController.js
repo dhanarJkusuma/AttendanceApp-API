@@ -51,7 +51,7 @@ exports.readCtrl = function(req, res, next){
             Peserta.count().exec(function(err, count){
                 if(err){return err;}
                 res.json({
-                    data : doc3,
+                    data : participants,
                     totalPage : (Math.ceil(count/limit)==0) ? 1 : Math.ceil(count/limit) ,
                     page : page
                 });
