@@ -135,10 +135,10 @@ exports.authenticate = function(passport){
                             message : "Unauthorized User."
                         });
                     }
-                    req.logIn(user, function(err) {
-                        if (err) { return next(err); }
+                    if(user){
                         next();
-                    });
+                    }
+
                 })(req, res, next);
     }
 };
