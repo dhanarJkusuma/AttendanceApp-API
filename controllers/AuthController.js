@@ -137,7 +137,7 @@ exports.authenticate = function(passport){
                         });
                     }
                     if(user){
-                        next();
+                        next(user);
                     }
 
                 })(req, res, next);
