@@ -125,4 +125,18 @@ exports.verified = function(req, res, next){
         });
 };
 
-
+exports.authenticate = function(passport){
+    return passport.authenticate('jwt', function(err, user, info) {
+        if (err) { return next(err); }
+        if (!user) {
+            return res.json({
+                status: false,
+                message : "Unauthorized User."
+            });
+        }
+        req.logIn(user, function(err) {
+            if (err) { return next(err); }
+            next();
+        });
+    })(req, res, next);
+};

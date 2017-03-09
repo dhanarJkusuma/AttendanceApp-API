@@ -4,13 +4,13 @@
 var locationCtrl = require('../controllers/LocationController');
 var express = require('express');
 var router = express.Router();
-
+var authCtrl = require('../controllers/AuthController');
 
 module.exports = function(passport){
-    router.get('/', passport.authenticate('jwt',{session:false}), locationCtrl.readCtrl);
-    router.post('/', passport.authenticate('jwt',{session:false}), locationCtrl.createCtrl);
-    router.post('/update/:id', passport.authenticate('jwt',{session:false}), locationCtrl.updateCtrl);
-    router.post('/delete/:id', passport.authenticate('jwt',{session:false}), locationCtrl.deleteCtrl);
+    router.get('/', authCtrl.authenticate(passport), locationCtrl.readCtrl);
+    router.post('/', authCtrl.authenticate(passport), locationCtrl.createCtrl);
+    router.post('/update/:id', authCtrl.authenticate(passport), locationCtrl.updateCtrl);
+    router.post('/delete/:id', authCtrl.authenticate(passport), locationCtrl.deleteCtrl);
 
     return router;
 };

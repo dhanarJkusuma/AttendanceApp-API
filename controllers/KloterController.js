@@ -8,8 +8,11 @@ exports.createCtrl = function(req, res, next){
     console.log("[Absen API] : Inserting new Kloter.");
     console.log(req.body.name);
     if(req.user.level !== 'mypro'){
-        res.status(403);
-        res.send('Unauthorized');
+        res.json({
+            status : false,
+            message : "Unauthorized",
+            code : 403
+        });
     }else{
         var query = Kloter.findOne({name: req.body.name});
         var promise = query.exec();
@@ -29,7 +32,8 @@ exports.createCtrl = function(req, res, next){
                 }else{
                     res.json({
                         status : false,
-                        message : "Kloter name has already exists."
+                        message : "Kloter name has already exists.",
+                        code : 409
                     });
                     return null;
                 }
@@ -39,7 +43,8 @@ exports.createCtrl = function(req, res, next){
                     res.json({
                         status : true,
                         data : kloter,
-                        message : "Data kloter has successfully inserted."
+                        message : "Data kloter has successfully inserted.",
+                        code : 201
                     })
                 }
             })
@@ -47,7 +52,8 @@ exports.createCtrl = function(req, res, next){
                 res.json({
                     status : false,
                     error : err,
-                    message : "Server Internal Error. (500)"
+                    message : "Server Internal Error. (500)",
+                    code : 500
                 })
             });
     }
@@ -60,7 +66,8 @@ exports.readCtrl = function(req, res, next){
         .then(function(results){
            res.json({
                status : true,
-               data : results
+               data : results,
+               code : 200
            })
         });
 };
@@ -68,8 +75,11 @@ exports.readCtrl = function(req, res, next){
 exports.updateCtrl = function(req, res, next){
     console.log("[Absen API] : Updating kloter.");
     if(req.user.level !== 'mypro'){
-        res.status(403);
-        res.send('Unauthorized');
+        res.json({
+            status : false,
+            message : "Unauthorized.",
+            code : 403
+        })
     }else{
         var id = req.params.id;
         var kloter = Kloter.findOne({_id:id});
@@ -80,7 +90,8 @@ exports.updateCtrl = function(req, res, next){
                 }else{
                     res.json({
                         status : false,
-                        message : "Kloter not found."
+                        message : "Kloter not found.",
+                        code : 404
                     });
                     return null;
                 }
@@ -95,14 +106,16 @@ exports.updateCtrl = function(req, res, next){
                 res.json({
                     status : true,
                     data : kloter,
-                    message : "Kloter has been successfully updated."
+                    message : "Kloter has been successfully updated.",
+                    code : 200
                 })
             })
             .catch(function(err){
                 res.json({
                     status : false,
                     err : err,
-                    message : "Server Internal Error (500)."
+                    message : "Server Internal Error (500).",
+                    code : 500
                 })
             });
     }
@@ -119,12 +132,14 @@ exports.deleteCtrl = function(req, res, next){
             if (err) {
                 res.json({
                     status: false,
-                    message: "Data that you are deleted is not exists."
+                    message: "Data that you are deleted is not exists.",
+                    code : 404
                 });
             } else {
                 res.json({
                     status: true,
-                    message: "Kloter has been successfully deleted."
+                    message: "Kloter has been successfully deleted.",
+                    code : 200
                 })
             }
         });

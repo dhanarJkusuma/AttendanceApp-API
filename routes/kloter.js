@@ -4,13 +4,16 @@
 var kloterCtrl = require('../controllers/KloterController');
 var express = require('express');
 var router = express.Router();
-
+var authCtrl = require('../controllers/AuthController');
 
 module.exports = function(passport){
-    router.get('/', passport.authenticate('jwt',{session:false}), kloterCtrl.readCtrl);
-    router.post('/', passport.authenticate('jwt',{session:false}), kloterCtrl.createCtrl);
-    router.post('/update/:id', passport.authenticate('jwt',{session:false}), kloterCtrl.updateCtrl);
-    router.post('/delete/:id', passport.authenticate('jwt',{session:false}), kloterCtrl.deleteCtrl);
+
+
+
+    router.get('/', authCtrl.authenticate(passport), kloterCtrl.readCtrl);
+    router.post('/', authCtrl.authenticate(passport), kloterCtrl.createCtrl);
+    router.post('/update/:id', authCtrl.authenticate(passport), kloterCtrl.updateCtrl);
+    router.post('/delete/:id', authCtrl.authenticate(passport), kloterCtrl.deleteCtrl);
 
     return router;
 };

@@ -14,7 +14,8 @@ exports.createCtrl = function(req, res, next){
             if(user){
                 res.json({
                     status : false,
-                    message : "Username is already exists."
+                    message : "Username is already exists.",
+                    code : 409
                 });
                 return null;
             }else{
@@ -36,7 +37,8 @@ exports.createCtrl = function(req, res, next){
                         level : user.level,
                         reps : user.reps
                     },
-                    message : "New User has been registered successfully"
+                    message : "New User has been registered successfully",
+                    code : 201
                 });
             }
         })
@@ -44,7 +46,8 @@ exports.createCtrl = function(req, res, next){
             res.json({
                 status : false,
                 err : err,
-                message : "Server Internal Error. (500)"
+                message : "Server Internal Error. (500)",
+                code : 500
             });
         });
 };
@@ -53,7 +56,7 @@ exports.readCtrl = function(req, res, next){
     console.log("[Absen API] : Getting data user SH or mypro.");
     if(req.user.level !== 'mypro'){
         res.status(403);
-        res.send('Unauthorized');
+        res.json({status : false, message : "Unauthorized", code: 403});
     }else {
         User.find({"level": {"$ne": "mypro"}})
             .populate('reps')
@@ -61,7 +64,8 @@ exports.readCtrl = function(req, res, next){
             .then(function(results){
                 res.json({
                     status : true,
-                    data : results
+                    data : results,
+                    code : 200
                 })
             });
     }
@@ -71,7 +75,7 @@ exports.updateCtrl = function(req, res, next){
     console.log("[Absen API] : Updating data user SH or mypro.");
     if(req.user.level !== 'mypro'){
         res.status(403);
-        res.send('Unauthorized');
+        res.json({status : false, message : "Unauthorized", code: 403});
     }else {
         var username = req.body.username;
         var level = req.body.level;
@@ -84,7 +88,8 @@ exports.updateCtrl = function(req, res, next){
                 }else{
                     res.json({
                         status : false,
-                        message : "User tidak ditemukan."
+                        message : "User tidak ditemukan.",
+                        code : 404
                     });
                     return null;
                 }
@@ -104,19 +109,22 @@ exports.updateCtrl = function(req, res, next){
                     res.json({
                         status : true,
                         data : result,
-                        message : "Berhasil mengubah data user."
+                        message : "Berhasil mengubah data user.",
+                        code : 200
                     });
                 }else{
                     res.json({
                         status : false,
-                        message : "Gagal saat mengubah data user."
+                        message : "Gagal saat mengubah data user.",
+                        code : 409
                     });
                 }
             })
             .catch(function(err){
                 res.json({
                     status : false,
-                    message: "Server Internal Error (500)."
+                    message: "Server Internal Error (500).",
+                    code : 500
                 })
             })
     }
@@ -126,7 +134,7 @@ exports.changePassCtrl = function(req, res, next){
     console.log("[Absen API] : Change Password user SH or mypro.");
     if(req.user.level !== 'mypro'){
         res.status(403);
-        res.send('Unauthorized');
+        res.json({status : false, message : "Unauthorized", code: 403});
     }else {
         var password = req.body.password;
         var findUser = User.findOne({_id : req.params.id});
@@ -137,7 +145,8 @@ exports.changePassCtrl = function(req, res, next){
                 }else{
                     res.json({
                         status : false,
-                        message : "User tidak ditemukan."
+                        message : "User tidak ditemukan.",
+                        code : 404
                     });
                     return null;
                 }
@@ -154,12 +163,14 @@ exports.changePassCtrl = function(req, res, next){
                 if(result){
                     res.json({
                         status : true,
-                        message : "Berhasil mengubah password."
+                        message : "Berhasil mengubah password.",
+                        code : 200
                     });
                 }else{
                     res.json({
                         status : false,
-                        message : "Gagal saat mengubah password."
+                        message : "Gagal saat mengubah password.",
+                        code : 409
                     });
                 }
             })
@@ -167,7 +178,8 @@ exports.changePassCtrl = function(req, res, next){
                 res.json({
                     status : false,
                     err : err,
-                    message: "Server Internal Error (500)."
+                    message: "Server Internal Error (500).",
+                    code : 500
                 })
             })
     }
@@ -181,17 +193,19 @@ exports.deleteCtrl = function(req, res, next){
             if (err) {
                 res.json({
                     status: false,
-                    message: "Data that you are deleted is not exists."
+                    message: "Data that you are deleted is not exists.",
+                    code : 404
                 });
             } else {
                 res.json({
                     status: true,
-                    message: "Participant has been successfully deleted."
+                    message: "Participant has been successfully deleted.",
+                    code : 200
                 })
             }
         });
     }else {
         res.status(403);
-        res.send('Unauthorized');
+        res.json({status : false, message : "Unauthorized", code: 403});
     }
 };

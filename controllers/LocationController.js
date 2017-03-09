@@ -7,7 +7,7 @@ exports.createCtrl = function(req, res, next){
     console.log("[Absen API] : Inserting new location.");
     if(req.user.level !== 'mypro'){
         res.status(403);
-        res.send('Unauthorized');
+        res.json({status : false, message : "Unauthorized", code: 403});
     }else {
         var query = Location.findOne({name: req.body.name});
         var promise = query.exec();
@@ -27,7 +27,8 @@ exports.createCtrl = function(req, res, next){
                 } else {
                     res.json({
                         status: false,
-                        message: "Location name has already exists."
+                        message: "Location name has already exists.",
+                        code : 409
                     });
                     return null;
                 }
@@ -37,7 +38,8 @@ exports.createCtrl = function(req, res, next){
                     res.json({
                         status: true,
                         data: location,
-                        message: "Data location has been successfully inserted."
+                        message: "Data location has been successfully inserted.",
+                        code : 201
                     })
                 }
             })
@@ -45,7 +47,8 @@ exports.createCtrl = function(req, res, next){
                 res.json({
                     status: false,
                     error: err,
-                    message: "Server Internal Error. (500)"
+                    message: "Server Internal Error. (500)",
+                    code : 500
                 })
             });
     }
@@ -57,7 +60,8 @@ exports.readCtrl = function(req, res, next){
         .then(function(results){
             res.json({
                 status : true,
-                data : results
+                data : results,
+                code : 200
             })
         });
 };
@@ -66,7 +70,7 @@ exports.updateCtrl = function(req, res, next){
     console.log("[Absen API] : Updating location.");
     if(req.user.level !== 'mypro'){
         res.status(403);
-        res.send('Unauthorized');
+        res.json({status : false, message : "Unauthorized", code: 403});
     }else {
         var id = req.params.id;
         var location = Location.findOne({_id: id});
@@ -78,7 +82,8 @@ exports.updateCtrl = function(req, res, next){
                 } else {
                     res.json({
                         status: false,
-                        message: "Location not found."
+                        message: "Location not found.",
+                        code : 404
                     });
                     location.done();
                 }
@@ -91,13 +96,15 @@ exports.updateCtrl = function(req, res, next){
                 res.json({
                     status: true,
                     data: location,
-                    message: "Location has been successfully updated."
+                    message: "Location has been successfully updated.",
+                    code : 200
                 })
             })
             .catch(function (err) {
                 res.json({
                     status: false,
-                    message: "Server Internal Error (500)."
+                    message: "Server Internal Error (500).",
+                    code : 500
                 })
             });
     }
@@ -107,19 +114,21 @@ exports.deleteCtrl = function(req, res, next){
     console.log("[Absen API] : Deleting location.");
     if(req.user.level !== 'mypro'){
         res.status(403);
-        res.send('Unauthorized');
+        res.json({status : false, message : "Unauthorized", code: 403});
     }else {
         var id = req.params.id;
         Location.findOneAndRemove({_id: id}, function (err) {
             if (err) {
                 res.json({
                     status: false,
-                    message: "Data that you are deleted is not exists."
+                    message: "Data that you are deleted is not exists.",
+                    code : 404
                 });
             } else {
                 res.json({
                     status: true,
-                    message: "Location has been successfully deleted."
+                    message: "Location has been successfully deleted.",
+                    code : 200
                 })
             }
         });

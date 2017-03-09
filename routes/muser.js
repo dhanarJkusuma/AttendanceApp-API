@@ -4,14 +4,14 @@
 var express = require('express');
 var router = express.Router();
 var mUserCtrl = require('../controllers/UserController');
-
+var authCtrl = require('../controllers/AuthController');
 
 module.exports = function(passport){
-    router.get('/', passport.authenticate('jwt',{session:false}), mUserCtrl.readCtrl);
-    router.post('/', passport.authenticate('jwt',{session:false}), mUserCtrl.createCtrl);
-    router.post('/update/:id', passport.authenticate('jwt',{session:false}), mUserCtrl.updateCtrl);
-    router.post('/delete/:id', passport.authenticate('jwt',{session:false}), mUserCtrl.deleteCtrl);
-    router.post('/password/:id', passport.authenticate('jwt', {session:false}), mUserCtrl.changePassCtrl);
+    router.get('/', authCtrl.authenticate(passport), mUserCtrl.readCtrl);
+    router.post('/', authCtrl.authenticate(passport), mUserCtrl.createCtrl);
+    router.post('/update/:id', authCtrl.authenticate(passport), mUserCtrl.updateCtrl);
+    router.post('/delete/:id', authCtrl.authenticate(passport), mUserCtrl.deleteCtrl);
+    router.post('/password/:id', authCtrl.authenticate(passport), mUserCtrl.changePassCtrl);
     return router;
 };
 

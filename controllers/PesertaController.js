@@ -7,7 +7,6 @@ var PesertaRevisi = require('../models/PesertaRevisi');
 exports.createCtrl = function(req, res, next){
     console.log("[Absen API] : Inserting new Participant.");
     if(req.user.level === 'mypro' || req.user.level === 'reps'){
-        console.log("passed");
         var peserta = new Peserta({
             nama: req.body.name,
             alamat: req.body.alamat,
@@ -19,18 +18,21 @@ exports.createCtrl = function(req, res, next){
             if (err) {
                 res.json({
                     status: false,
-                    message: "Gagal menambahkan peserta baru."
+                    message: "Gagal menambahkan peserta baru.",
+                    code : 409
                 });
             } else {
                 res.json({
                     status: true,
-                    message: "Berhasil menambahkan peserta baru."
+                    message: "Berhasil menambahkan peserta baru.",
+                    code : 201
+
                 })
             }
         });
     }else{
         res.status(403);
-        res.send('Unauthorized');
+        res.json({status : false, message : "Unauthorized", code: 403});
     }
 };
 
@@ -55,7 +57,8 @@ exports.readCtrl = function(req, res, next){
                        res.json({
                            data : participantsLoc,
                            totalPage : (Math.ceil(count/limit)==0) ? 1 : Math.ceil(count/limit) ,
-                           page : page
+                           page : page,
+                           code : 200
                        });
                    });
                 });
@@ -85,7 +88,8 @@ exports.readByKloterCtrl = function(req, res, next){
                         res.json({
                             data : participantsLoc,
                             totalPage : (Math.ceil(count/limit)==0) ? 1 : Math.ceil(count/limit) ,
-                            page : page
+                            page : page,
+                            code : 200
                         });
                     });
                 });
@@ -111,7 +115,8 @@ exports.updateCtrl = function(req, res, next){
                 } else {
                     res.json({
                         status: false,
-                        message: "Peserta tidak ditemukan."
+                        message: "Peserta tidak ditemukan.",
+                        code : 404
                     });
                     return null;
                 }
@@ -141,7 +146,8 @@ exports.updateCtrl = function(req, res, next){
                 }else{
                     res.json({
                         status: false,
-                        message: "Tidak dapat melakukan update, revisi telah melebihi batas maksimal."
+                        message: "Tidak dapat melakukan update, revisi telah melebihi batas maksimal.",
+                        code : 200
                     })
                 }
             })
@@ -164,12 +170,14 @@ exports.updateCtrl = function(req, res, next){
                                 res.json({
                                     status: true,
                                     data: participantsLoc,
-                                    message: "Berhasil mengubah data peserta."
+                                    message: "Berhasil mengubah data peserta.",
+                                    code : 200
                                 })
                             } else {
                                 res.json({
                                     status: false,
-                                    message: "Gagal mengubah data peserta."
+                                    message: "Gagal mengubah data peserta.",
+                                    code : 409
                                 })
                             }
                     });
@@ -179,12 +187,13 @@ exports.updateCtrl = function(req, res, next){
                 res.json({
                     status: false,
                     err : err,
-                    message: "Server Internal Error (500)."
+                    message: "Server Internal Error (500).",
+                    code : 500
                 })
             });
     }else {
         res.status(403);
-        res.send('Unauthorized');
+        res.json({status : false, message : "Unauthorized", code: 403});
     }
 };
 
@@ -196,18 +205,20 @@ exports.deleteCtrl = function(req, res, next){
             if (err) {
                 res.json({
                     status: false,
-                    message: "Data that you are deleted is not exists."
+                    message: "Data that you are deleted is not exists.",
+                    code : 404
                 });
             } else {
                 res.json({
                     status: true,
-                    message: "Participant has been successfully deleted."
+                    message: "Participant has been successfully deleted.",
+                    code : 200
                 })
             }
         });
     }else {
         res.status(403);
-        res.send('Unauthorized');
+        res.json({status : false, message : "Unauthorized", code: 403});
     }
 };
 

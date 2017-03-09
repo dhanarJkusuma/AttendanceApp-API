@@ -5,8 +5,8 @@
 var express = require('express');
 var router = express.Router();
 var auth = require('../controllers/AuthController');
-
+var authCtrl = require('../controllers/AuthController');
 module.exports = function(passport){
-    router.get('/', passport.authenticate('jwt',{session:false}), auth.verified);
+    router.get('/', authCtrl.authenticate(passport), auth.verified);
     return router;
 };

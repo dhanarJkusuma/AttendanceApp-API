@@ -4,12 +4,13 @@
 var express = require('express');
 var router = express.Router();
 var pesertaCtrl = require('../controllers/PesertaController');
+var authCtrl = require('../controllers/AuthController');
 
 module.exports = function(passport){
-    router.get('/', passport.authenticate('jwt',{session:false}), pesertaCtrl.readCtrl);
-    router.post('/', passport.authenticate('jwt',{session:false}), pesertaCtrl.createCtrl);
-    router.post('/bykloter', passport.authenticate('jwt', {session:false}), pesertaCtrl.readByKloterCtrl);
-    router.post('/update/:id', passport.authenticate('jwt',{session:false}), pesertaCtrl.updateCtrl);
-    router.post('/delete/:id', passport.authenticate('jwt',{session:false}), pesertaCtrl.deleteCtrl);
+    router.get('/', authCtrl.authenticate(passport), pesertaCtrl.readCtrl);
+    router.post('/', authCtrl.authenticate(passport), pesertaCtrl.createCtrl);
+    router.post('/bykloter', authCtrl.authenticate(passport), pesertaCtrl.readByKloterCtrl);
+    router.post('/update/:id', authCtrl.authenticate(passport), pesertaCtrl.updateCtrl);
+    router.post('/delete/:id', authCtrl.authenticate(passport), pesertaCtrl.deleteCtrl);
     return router;
 };
