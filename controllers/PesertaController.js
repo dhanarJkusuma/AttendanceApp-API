@@ -85,13 +85,18 @@ exports.updateCtrl = function(req, res, next){
                         _location : peserta._location
                     });
                     revisi.save(function(err){
-                        console.log(revisi);
-                        peserta._revisi.push(revisi._id);
-                        peserta.nama = req.body.name;
-                        peserta.alamat = req.body.alamat;
-                        peserta._kloter = req.body.kloter;
-                        peserta._location = req.body.location;
-                        return peserta.save();
+                        if(!err){
+                            peserta._revisi.push(revisi._id);
+                            peserta.nama = req.body.name;
+                            peserta.alamat = req.body.alamat;
+                            peserta._kloter = req.body.kloter;
+                            peserta._location = req.body.location;
+                            return peserta.save();
+                        }else{
+                            console.log(err);
+                            return null;
+                        }
+
                     });
                 } else {
                     return null;
