@@ -2,7 +2,7 @@
  * Created by Dhanar J Kusuma on 19/02/2017.
  */
 var Peserta = require('../models/Peserta');
-
+var PesertaRevisi = require('../models/PesertaRevisi');
 
 exports.createCtrl = function(req, res, next){
     console.log("[Absen API] : Inserting new Participant.");
@@ -12,7 +12,8 @@ exports.createCtrl = function(req, res, next){
             nama: req.body.name,
             alamat: req.body.alamat,
             _kloter: req.body.kloter,
-            _location : req.body.location
+            _location : req.body.location,
+            _revisi : null
         });
         peserta.save(function (err) {
             if (err) {
@@ -41,6 +42,7 @@ exports.readCtrl = function(req, res, next){
     Peserta.find()
         .populate('_location')
         .populate('_kloter')
+        .populate('_revisi')
         .sort('name')
         .limit(limit)
         .skip((page-1)*limit)
@@ -76,6 +78,13 @@ exports.updateCtrl = function(req, res, next){
             })
             .then(function (peserta) {
                 if (peserta) {
+                    var revisi = new PesertaRevisi({
+                        nama : peserta.nama,
+                        alamat : peserta.alamat,
+                        _kloter : peserta._kloter,
+                        _location : peserta._location
+                    });
+                    peserta._revisi.push(revisi);
                     peserta.nama = req.body.name;
                     peserta.alamat = req.body.alamat;
                     peserta._kloter = req.body.kloter;

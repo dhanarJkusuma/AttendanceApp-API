@@ -1,10 +1,10 @@
 /**
- * Created by Dhanar J Kusuma on 19/02/2017.
+ * Created by Dhanar J Kusuma on 09/03/2017.
  */
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var pesertaSchema = new Schema({
+var pesertaRevisi = new Schema({
     nama : {
         type : String,
         required : true
@@ -23,14 +23,6 @@ var pesertaSchema = new Schema({
         ref : 'Location',
         required : true
     }
-    ,
-    _revisi : [
-        {
-            type : Schema.Types.ObjectId,
-            ref : 'PesertaRevisi',
-            required : false
-        }
-    ]
 });
 
-module.exports = mongoose.model('Peserta', pesertaSchema,'peserta');
+module.exports = mongoose.model('PesertaRevisi', pesertaRevisi, 'peserta_revisi');
