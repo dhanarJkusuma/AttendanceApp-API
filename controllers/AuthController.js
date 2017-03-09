@@ -136,10 +136,7 @@ exports.authenticate = function(passport){
                             message : "Unauthorized User."
                         });
                     }
-                    if(user){
-                        next(user);
-                    }
-
+                    next();
                 })(req, res, next);
     }
 };
