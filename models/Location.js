@@ -4,6 +4,8 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var Peserta = require('./Peserta');
+var User = require('./User');
+
 var locationSchema = new Schema({
     name : {
         type : String,
@@ -13,7 +15,8 @@ var locationSchema = new Schema({
 });
 
 locationSchema.pre('remove', function(next){
-    Peserta.remove({_location: this._id});
+    Peserta.remove({ _location: this._id });
+    User.remove({ reps : this._id});
     next();
 });
 
