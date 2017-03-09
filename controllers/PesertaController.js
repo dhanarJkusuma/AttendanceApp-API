@@ -100,7 +100,6 @@ exports.updateCtrl = function(req, res, next){
                 }else{
                     res.json({
                         status: false,
-                        data : peserta,
                         message: "Tidak dapat melakukan update, revisi telah melebihi batas maksimal."
                     })
                 }
