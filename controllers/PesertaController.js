@@ -93,6 +93,7 @@ exports.updateCtrl = function(req, res, next){
                 }
             })
             .then(function (result) {
+                console.log(result);
                 if(result.revisi){
                     peserta.nama = req.body.name;
                     peserta.alamat = req.body.alamat;
