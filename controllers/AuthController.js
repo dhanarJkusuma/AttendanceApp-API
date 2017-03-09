@@ -136,5 +136,5 @@ exports.authenticate = function(passport){
                         });
                     }
                 });
-    }
+
 };
