@@ -84,12 +84,14 @@ exports.updateCtrl = function(req, res, next){
                         _kloter : peserta._kloter,
                         _location : peserta._location
                     });
-                    peserta._revisi.push(revisi);
-                    peserta.nama = req.body.name;
-                    peserta.alamat = req.body.alamat;
-                    peserta._kloter = req.body.kloter;
-                    peserta._location = req.body.location;
-                    return peserta.save();
+                    revisi.save(function(err){
+                        peserta._revisi.push(revisi);
+                        peserta.nama = req.body.name;
+                        peserta.alamat = req.body.alamat;
+                        peserta._kloter = req.body.kloter;
+                        peserta._location = req.body.location;
+                        return peserta.save();
+                    });
                 } else {
                     return null;
                 }
