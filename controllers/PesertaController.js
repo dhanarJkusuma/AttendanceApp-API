@@ -47,12 +47,17 @@ exports.readCtrl = function(req, res, next){
         .skip((page-1)*limit)
         .exec(function(err, participants){
             Peserta.count().exec(function(err, count){
-                if(err){return err;}
-                res.json({
-                    data : participants,
-                    totalPage : (Math.ceil(count/limit)==0) ? 1 : Math.ceil(count/limit) ,
-                    page : page
+                PesertaRevisi.populate(participants, {path: 'peserta._kloter'}, function(err, docs2){
+                    PesertaRevisi.populate(participants, {path: 'peserta._location'}, function (err, doc3) {
+                        if(err){return err;}
+                        res.json({
+                            data : doc3,
+                            totalPage : (Math.ceil(count/limit)==0) ? 1 : Math.ceil(count/limit) ,
+                            page : page
+                        });
+                    });
                 });
+
             });
         });
 };
