@@ -6,6 +6,7 @@ var PesertaRevisi = require('../models/PesertaRevisi');
 
 exports.createCtrl = function(req, res, next){
     console.log("[Absen API] : Inserting new Participant.");
+    console.log(req.user.username);
     console.log(req.user.level);
     if(req.user.level === 'mypro' || req.user.level === 'reps'){
         var peserta = new Peserta({
