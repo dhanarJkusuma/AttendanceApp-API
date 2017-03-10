@@ -207,13 +207,13 @@ exports.deleteCtrl = function(req, res, next){
             if (err) {
                 res.json({
                     status: false,
-                    message: "Data that you are deleted is not exists.",
+                    message: "Peserta tidak ditemukan.",
                     code : 404
                 });
             } else {
                 res.json({
                     status: true,
-                    message: "Participant has been successfully deleted.",
+                    message: "Berhasil menghapus data peserta.",
                     code : 200
                 })
             }
