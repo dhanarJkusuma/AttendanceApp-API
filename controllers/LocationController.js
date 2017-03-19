@@ -2,6 +2,7 @@
  * Created by Dhanar J Kusuma on 16/02/2017.
  */
 var Location = require('../models/Location');
+var Peserta = require('../models/Peserta');
 
 exports.createCtrl = function(req, res, next){
     console.log("[Absen API] : Inserting new location.");
@@ -117,20 +118,30 @@ exports.deleteCtrl = function(req, res, next){
         res.json({status : false, message : "Unauthorized", code: 403});
     }else {
         var id = req.params.id;
-        Location.findOneAndRemove({_id: id}, function (err) {
-            if (err) {
-                res.json({
-                    status: false,
-                    message: "Data that you are deleted is not exists.",
-                    code : 404
+        Peserta.remove({ _location: this._id }, function(err){
+            if(!err){
+                User.remove({ reps : this._id}, function(err){
+                    if(!err){
+                        Location.findOneAndRemove({_id: id}, function (err) {
+                            if (err) {
+                                res.json({
+                                    status: false,
+                                    message: "Data that you are deleted is not exists.",
+                                    code : 404
+                                });
+                            } else {
+                                res.json({
+                                    status: true,
+                                    message: "Location has been successfully deleted.",
+                                    code : 200
+                                })
+                            }
+                        });
+                    }
                 });
-            } else {
-                res.json({
-                    status: true,
-                    message: "Location has been successfully deleted.",
-                    code : 200
-                })
+
             }
         });
+
     }
 };
