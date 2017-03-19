@@ -20,4 +20,4 @@ locationSchema.pre('remove', function(next){
     next();
 });
 
-module.exports = mongoose.model('Location', locationSchema,'location');
+module.exports = mongoose.model('Location', locationSchema);

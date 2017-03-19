@@ -33,4 +33,4 @@ var pesertaSchema = new Schema({
     ]
 });
 
-module.exports = mongoose.model('Peserta', pesertaSchema,'peserta');
+module.exports = mongoose.model('Peserta', pesertaSchema);
