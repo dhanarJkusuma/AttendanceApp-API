@@ -12,6 +12,6 @@ module.exports = function(passport){
     router.post('/bykloter', authCtrl.authenticate(passport), pesertaCtrl.readByKloterCtrl);
     router.post('/update/:id', authCtrl.authenticate(passport), pesertaCtrl.updateCtrl);
     router.post('/delete/:id', authCtrl.authenticate(passport), pesertaCtrl.deleteCtrl);
-    router.get('/export', authCtrl.authenticate(passport), pesertaCtrl.exportToExcel);
+    router.post('/export', authCtrl.authenticate(passport), pesertaCtrl.exportToExcel);
     return router;
 };
