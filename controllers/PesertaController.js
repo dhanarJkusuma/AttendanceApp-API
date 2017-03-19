@@ -116,11 +116,9 @@ exports.exportToExcel = function(req, res, next){
                peserta.count_rev = peserta._revisi.length;
             });
             var csv = json2csv({ data: participants, fields: fields, fieldNames: fieldNames });
-            console.log(csv);
-            res.json({
-                status: true,
-                data : participants
-            })
+            res.setHeader('Content-disposition', 'attachment; filename=export.csv');
+            res.set('Content-Type', 'text/csv');
+            res.status(200).send(csv);
         });
 };
 
