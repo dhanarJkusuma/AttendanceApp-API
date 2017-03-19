@@ -119,9 +119,9 @@ exports.deleteCtrl = function(req, res, next){
         res.json({status : false, message : "Unauthorized", code: 403});
     }else {
         var id = req.params.id;
-        Peserta.remove({ _location: this.id }, function(err){
+        Peserta.findOneAndRemove({ _location: this.id }, function(err){
             if(!err){
-                User.remove({ reps : this.id}, function(err){
+                User.findOneAndRemove({ reps : this.id}, function(err){
                     if(!err){
                         Location.findOneAndRemove({_id: id}, function (err) {
                             if (err) {
