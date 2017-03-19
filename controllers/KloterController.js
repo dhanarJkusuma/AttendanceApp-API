@@ -3,7 +3,7 @@
  */
 
 var Kloter = require('../models/Kloter');
-
+var Peserta = require('../models/Peserta');
 exports.createCtrl = function(req, res, next){
     console.log("[Absen API] : Inserting new Kloter.");
     console.log(req.body.name);
@@ -128,20 +128,25 @@ exports.deleteCtrl = function(req, res, next){
         res.send('Unauthorized');
     }else {
         var id = req.params.id;
-        Kloter.findOneAndRemove({_id: id}, function (err) {
-            if (err) {
-                res.json({
-                    status: false,
-                    message: "Data that you are deleted is not exists.",
-                    code : 404
+        Peserta.remove({_kloter : id}, function(err){
+            if(!err){
+                Kloter.findOneAndRemove({_id: id}, function (err) {
+                    if (err) {
+                        res.json({
+                            status: false,
+                            message: "Data that you are deleted is not exists.",
+                            code : 404
+                        });
+                    } else {
+                        res.json({
+                            status: true,
+                            message: "Kloter has been successfully deleted.",
+                            code : 200
+                        })
+                    }
                 });
-            } else {
-                res.json({
-                    status: true,
-                    message: "Kloter has been successfully deleted.",
-                    code : 200
-                })
             }
         });
+
     }
 };

@@ -13,9 +13,5 @@ var kloterSchema = new Schema({
     }
 });
 
-kloterSchema.pre('remove', function(next){
-    Peserta.remove({_kloter : this._id});
-    next();
-});
 
 module.exports = mongoose.model('Kloter', kloterSchema);
