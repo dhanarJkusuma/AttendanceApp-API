@@ -13,16 +13,21 @@ var locationSchema = new Schema({
         unique : true
     }
 });
+//
+// locationSchema.pre('remove', function(next){
+//     Peserta.remove({ _location: this._id }).exec()
+//         .then(function(results){
+//             User.remove({ reps : this._id}, next);
+//         })
+//         .catch(function(err){
+//             console.log(err);
+//             next();
+//         });
+// });
 
-locationSchema.pre('remove', function(next){
-    Peserta.remove({ _location: this._id }).exec()
-        .then(function(results){
-            User.remove({ reps : this._id}, next);
-        })
-        .catch(function(err){
-            console.log(err);
-            next();
-        });
+locationSchema.post('remove', function(doc) {
+    Peserta.remove({ _location: this._id }).exec();
+    User.remove({ reps : this._id}).exec();
 });
 
 module.exports = mongoose.model('Location', locationSchema);
