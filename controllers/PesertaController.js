@@ -103,6 +103,8 @@ exports.readByKloterCtrl = function(req, res, next){
 
 exports.exportToExcel = function(req, res, next){
     console.log("[Absen API] : Getting data participant.");
+    var fields = ['nama', 'alamat', '_kloter.name','_location.name', 'count_rev'];
+    var fieldNames = ['Nama', 'Alamat','Kloter','Lokasi','Jumlah Revisi'];
     Peserta.find({ _kloter : req.body.kloter, _location : req.body.location })
         .populate('_location','name')
         .populate('_kloter','name')
@@ -110,6 +112,11 @@ exports.exportToExcel = function(req, res, next){
         .sort('name')
         .exec(function(err, participants){
             if(err){return err;}
+            participants.forEach(function(peserta){
+               peserta['count_rev'] = peserta._revisi.length;
+            });
+            var csv = json2csv({ data: participants, fields: fields, fieldNames: fieldNames });
+            console.log(csv);
             res.json({
                 status: true,
                 data : participants
