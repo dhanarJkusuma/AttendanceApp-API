@@ -15,9 +15,14 @@ var locationSchema = new Schema({
 });
 
 locationSchema.pre('remove', function(next){
-    Peserta.remove({ _location: this._id });
-    User.remove({ reps : this._id});
-    next();
+    Peserta.remove({ _location: this._id }).exec()
+        .then(function(results){
+            User.remove({ reps : this._id}, next);
+        })
+        .catch(function(err){
+            console.log(err);
+            next();
+        });
 });
 
 module.exports = mongoose.model('Location', locationSchema);
