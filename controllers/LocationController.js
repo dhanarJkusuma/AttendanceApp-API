@@ -3,6 +3,7 @@
  */
 var Location = require('../models/Location');
 var Peserta = require('../models/Peserta');
+var User = require('../models/User');
 
 exports.createCtrl = function(req, res, next){
     console.log("[Absen API] : Inserting new location.");
@@ -118,9 +119,9 @@ exports.deleteCtrl = function(req, res, next){
         res.json({status : false, message : "Unauthorized", code: 403});
     }else {
         var id = req.params.id;
-        Peserta.remove({ _location: this._id }, function(err){
+        Peserta.remove({ _location: this.id }, function(err){
             if(!err){
-                User.remove({ reps : this._id}, function(err){
+                User.remove({ reps : this.id}, function(err){
                     if(!err){
                         Location.findOneAndRemove({_id: id}, function (err) {
                             if (err) {
