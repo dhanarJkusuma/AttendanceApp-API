@@ -113,7 +113,7 @@ exports.exportToExcel = function(req, res, next){
         .exec(function(err, participants){
             if(err){return err;}
             participants.forEach(function(peserta){
-               peserta['count_rev'] = peserta._revisi.length;
+               peserta.count_rev = peserta._revisi.length;
             });
             var csv = json2csv({ data: participants, fields: fields, fieldNames: fieldNames });
             console.log(csv);
