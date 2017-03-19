@@ -3,6 +3,7 @@
  */
 var Peserta = require('../models/Peserta');
 var PesertaRevisi = require('../models/PesertaRevisi');
+var json2csv = require('json2csv');
 
 exports.createCtrl = function(req, res, next){
     console.log("[Absen API] : Inserting new Participant.");
@@ -97,6 +98,26 @@ exports.readByKloterCtrl = function(req, res, next){
                 });
 
             });
+        });
+};
+
+exports.exportToExcel = function(req, res, next){
+    console.log("[Absen API] : Getting data participant.");
+    var page = (req.query.page) ? req.query.page : 1 ;
+    var limit = (req.query.limit) ? req.query.limit : 10;
+    Peserta.find({ _kloter : req.body.kloter, _location : req.body.location })
+        .populate('_location','name')
+        .populate('_kloter','name')
+        .populate('_revisi')
+        .sort('name')
+        .limit(limit)
+        .skip((page-1)*limit)
+        .exec(function(err, participants){
+            if(err){return err;}
+            res.json({
+                status: true,
+                data : participants
+            })
         });
 };
 
