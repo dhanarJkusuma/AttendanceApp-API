@@ -106,8 +106,8 @@ exports.exportToExcel = function(req, res, next){
     var page = (req.query.page) ? req.query.page : 1 ;
     var limit = (req.query.limit) ? req.query.limit : 10;
     Peserta.find({ _kloter : req.body.kloter, _location : req.body.location })
-        .populate('_location','name')
-        .populate('_kloter','name')
+        .populate('_location')
+        .populate('_kloter')
         .populate('_revisi')
         .sort('name')
         .limit(limit)
